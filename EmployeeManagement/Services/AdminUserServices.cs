@@ -90,8 +90,18 @@ namespace EmployeeManagement.Services
             List<EmployeeModel> employeeModel = new List<EmployeeModel>();
             try
             {
-                var FindAdminUser = _db.Employees.Where(a=> a.FirstName == searchparam );
-
+                var normalizedQuery = searchparam?.ToLower() ?? "";
+                var FindAdminUser = _db.Employees.ToList();
+                var searchResult = FindAdminUser.Where(f => f.FirstName.ToLowerInvariant().Contains(normalizedQuery) || f.LastName.ToLowerInvariant().Contains(normalizedQuery) || f.Department.ToLowerInvariant().Contains(normalizedQuery)).ToList();
+                foreach (var employee in searchResult)
+                {
+                    EmployeeModel employeeModel1 = new EmployeeModel();
+                    employeeModel1.FirstName = employee.FirstName;
+                    employeeModel1.LastName = employee.LastName;
+                    employeeModel1.DOB = employee.DOB;
+                    employeeModel1.Department = employee.Department;
+                    employeeModel.Add(employeeModel1);
+                }
             }
             catch (Exception ex)
             {
