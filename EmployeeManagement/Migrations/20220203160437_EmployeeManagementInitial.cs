@@ -41,6 +41,10 @@ namespace EmployeeManagement.Migrations
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
                 });
+            migrationBuilder.InsertData(
+                table: "AdminUser",
+                columns: new[] { "Username", "Password",  "FirstName", "LastName", "Email" },
+                values: new object[] { "admin", "admin", "Admin", "Admin User", "admin@gmail.com" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
